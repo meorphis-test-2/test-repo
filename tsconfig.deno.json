@@ -9,7 +9,6 @@
       "meorphis-test-26/_shims/auto/*": ["deno/_shims/auto/*-deno"],
       "meorphis-test-26/*": ["deno/*"],
       "meorphis-test-26": ["deno/index.ts"],
-      "digest-fetch": ["./typings/digest-fetch"]
     },
     "noEmit": true,
     "declaration": true,
