@@ -1,4 +1,4 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import MeorphisTest26 from 'meorphis-test-26';
 import { APIUserAbortError } from 'meorphis-test-26';
