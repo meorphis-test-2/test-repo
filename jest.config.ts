@@ -3,6 +3,9 @@ import type { JestConfigWithTsJest } from 'ts-jest';
 const config: JestConfigWithTsJest = {
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
+  transform: {
+    '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
+  },
   moduleNameMapper: {
     '^meorphis-test-26$': '<rootDir>/src/index.ts',
     '^meorphis-test-26/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
