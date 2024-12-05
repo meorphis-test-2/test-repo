@@ -1,8 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'meorphis-test-26/core';
-import { APIResource } from 'meorphis-test-26/resource';
-import * as StatusAPI from 'meorphis-test-26/resources/status';
+import { APIResource } from '../resource';
+import * as Core from '../core';
 
 export class Status extends APIResource {
   /**
@@ -17,6 +16,6 @@ export interface StatusRetrieveResponse {
   message?: string;
 }
 
-export namespace Status {
-  export import StatusRetrieveResponse = StatusAPI.StatusRetrieveResponse;
+export declare namespace Status {
+  export { type StatusRetrieveResponse as StatusRetrieveResponse };
 }

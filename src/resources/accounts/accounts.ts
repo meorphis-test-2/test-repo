@@ -1,9 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'meorphis-test-26/core';
-import { APIResource } from 'meorphis-test-26/resource';
-import * as AccountsAPI from 'meorphis-test-26/resources/accounts/accounts';
-import * as CreditConfigurationAPI from 'meorphis-test-26/resources/accounts/credit-configuration';
+import { APIResource } from '../../resource';
+import * as Core from '../../core';
+import * as CreditConfigurationAPI from './credit-configuration';
+import {
+  BusinessAccount,
+  CreditConfiguration,
+  CreditConfigurationUpdateParams,
+} from './credit-configuration';
 
 export class Accounts extends APIResource {
   creditConfiguration: CreditConfigurationAPI.CreditConfiguration =
@@ -210,10 +214,17 @@ export namespace AccountUpdateParams {
   }
 }
 
-export namespace Accounts {
-  export import AccountConfiguration = AccountsAPI.AccountConfiguration;
-  export import AccountUpdateParams = AccountsAPI.AccountUpdateParams;
-  export import CreditConfiguration = CreditConfigurationAPI.CreditConfiguration;
-  export import BusinessAccount = CreditConfigurationAPI.BusinessAccount;
-  export import CreditConfigurationUpdateParams = CreditConfigurationAPI.CreditConfigurationUpdateParams;
+Accounts.CreditConfiguration = CreditConfiguration;
+
+export declare namespace Accounts {
+  export {
+    type AccountConfiguration as AccountConfiguration,
+    type AccountUpdateParams as AccountUpdateParams,
+  };
+
+  export {
+    CreditConfiguration as CreditConfiguration,
+    type BusinessAccount as BusinessAccount,
+    type CreditConfigurationUpdateParams as CreditConfigurationUpdateParams,
+  };
 }
