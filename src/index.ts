@@ -1,17 +1,26 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as Errors from './error';
-import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
-import * as API from 'meorphis-test-26/resources/index';
+import * as API from './resources/index';
+import { Status, StatusRetrieveResponse } from './resources/status';
+import { AccountConfiguration, AccountUpdateParams, Accounts } from './resources/accounts/accounts';
+import {
+  Card,
+  CardCreateParams,
+  CardProvisionParams,
+  CardProvisionResponse,
+  CardUpdateParams,
+  Cards,
+} from './resources/cards/cards';
 
 const environments = {
   production: 'https://api.acme.com/v1',
   environment_1: 'https://sandbox.acme.com/v1',
 };
 type Environment = keyof typeof environments;
-
 export interface ClientOptions {
   /**
    * Defaults to process.env['MEORPHIS_TEST_26_API_KEY'].
@@ -84,7 +93,9 @@ export interface ClientOptions {
   defaultQuery?: Core.DefaultQuery;
 }
 
-/** API Client for interfacing with the Meorphis Test 26 API. */
+/**
+ * API Client for interfacing with the Meorphis Test 26 API.
+ */
 export class MeorphisTest26 extends Core.APIClient {
   apiKey: string;
 
@@ -134,6 +145,7 @@ export class MeorphisTest26 extends Core.APIClient {
       maxRetries: options.maxRetries,
       fetch: options.fetch,
     });
+
     this._options = options;
 
     this.apiKey = apiKey;
@@ -159,6 +171,7 @@ export class MeorphisTest26 extends Core.APIClient {
   }
 
   static MeorphisTest26 = this;
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 
   static MeorphisTest26Error = Errors.MeorphisTest26Error;
   static APIError = Errors.APIError;
@@ -178,7 +191,32 @@ export class MeorphisTest26 extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-export const {
+MeorphisTest26.Accounts = Accounts;
+MeorphisTest26.Cards = Cards;
+MeorphisTest26.Status = Status;
+export declare namespace MeorphisTest26 {
+  export type RequestOptions = Core.RequestOptions;
+
+  export {
+    Accounts as Accounts,
+    type AccountConfiguration as AccountConfiguration,
+    type AccountUpdateParams as AccountUpdateParams,
+  };
+
+  export {
+    Cards as Cards,
+    type Card as Card,
+    type CardProvisionResponse as CardProvisionResponse,
+    type CardCreateParams as CardCreateParams,
+    type CardUpdateParams as CardUpdateParams,
+    type CardProvisionParams as CardProvisionParams,
+  };
+
+  export { Status as Status, type StatusRetrieveResponse as StatusRetrieveResponse };
+}
+
+export { toFile, fileFromPath } from './uploads';
+export {
   MeorphisTest26Error,
   APIError,
   APIConnectionError,
@@ -192,27 +230,6 @@ export const {
   InternalServerError,
   PermissionDeniedError,
   UnprocessableEntityError,
-} = Errors;
-
-export import toFile = Uploads.toFile;
-export import fileFromPath = Uploads.fileFromPath;
-
-export namespace MeorphisTest26 {
-  export import RequestOptions = Core.RequestOptions;
-
-  export import Accounts = API.Accounts;
-  export import AccountConfiguration = API.AccountConfiguration;
-  export import AccountUpdateParams = API.AccountUpdateParams;
-
-  export import Cards = API.Cards;
-  export import Card = API.Card;
-  export import CardProvisionResponse = API.CardProvisionResponse;
-  export import CardCreateParams = API.CardCreateParams;
-  export import CardUpdateParams = API.CardUpdateParams;
-  export import CardProvisionParams = API.CardProvisionParams;
-
-  export import Status = API.Status;
-  export import StatusRetrieveResponse = API.StatusRetrieveResponse;
-}
+} from './error';
 
 export default MeorphisTest26;
