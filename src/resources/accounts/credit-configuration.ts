@@ -1,9 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'meorphis-test-26/core';
-import { APIResource } from 'meorphis-test-26/resource';
-import { isRequestOptions } from 'meorphis-test-26/core';
-import * as CreditConfigurationAPI from 'meorphis-test-26/resources/accounts/credit-configuration';
+import { APIResource } from '../../resource';
+import { isRequestOptions } from '../../core';
+import * as Core from '../../core';
 
 export class CreditConfiguration extends APIResource {
   /**
@@ -89,7 +88,9 @@ export interface CreditConfigurationUpdateParams {
   payment_period?: number;
 }
 
-export namespace CreditConfiguration {
-  export import BusinessAccount = CreditConfigurationAPI.BusinessAccount;
-  export import CreditConfigurationUpdateParams = CreditConfigurationAPI.CreditConfigurationUpdateParams;
+export declare namespace CreditConfiguration {
+  export {
+    type BusinessAccount as BusinessAccount,
+    type CreditConfigurationUpdateParams as CreditConfigurationUpdateParams,
+  };
 }

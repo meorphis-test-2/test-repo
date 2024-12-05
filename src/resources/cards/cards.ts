@@ -1,9 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'meorphis-test-26/core';
-import { APIResource } from 'meorphis-test-26/resource';
-import * as CardsAPI from 'meorphis-test-26/resources/cards/cards';
-import * as FinancialTransactionsAPI from 'meorphis-test-26/resources/cards/financial-transactions';
+import { APIResource } from '../../resource';
+import * as Core from '../../core';
+import * as FinancialTransactionsAPI from './financial-transactions';
+import { FinancialTransaction, FinancialTransactions } from './financial-transactions';
 
 export class Cards extends APIResource {
   financialTransactions: FinancialTransactionsAPI.FinancialTransactions =
@@ -18,7 +18,10 @@ export class Cards extends APIResource {
     return this._client.post('/cards', {
       body,
       ...options,
-      headers: { 'Idempotency-Key': idempotencyKey || '', ...options?.headers },
+      headers: {
+        ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined),
+        ...options?.headers,
+      },
     });
   }
 
@@ -57,7 +60,10 @@ export class Cards extends APIResource {
     return this._client.post(`/cards/${cardToken}/provision`, {
       body,
       ...options,
-      headers: { 'Idempotency-Key': idempotencyKey || '', ...options?.headers },
+      headers: {
+        ...(idempotencyKey != null ? { 'Idempotency-Key': idempotencyKey } : undefined),
+        ...options?.headers,
+      },
     });
   }
 }
@@ -558,12 +564,19 @@ export interface CardProvisionParams {
   'Idempotency-Key'?: string;
 }
 
-export namespace Cards {
-  export import Card = CardsAPI.Card;
-  export import CardProvisionResponse = CardsAPI.CardProvisionResponse;
-  export import CardCreateParams = CardsAPI.CardCreateParams;
-  export import CardUpdateParams = CardsAPI.CardUpdateParams;
-  export import CardProvisionParams = CardsAPI.CardProvisionParams;
-  export import FinancialTransactions = FinancialTransactionsAPI.FinancialTransactions;
-  export import FinancialTransaction = FinancialTransactionsAPI.FinancialTransaction;
+Cards.FinancialTransactions = FinancialTransactions;
+
+export declare namespace Cards {
+  export {
+    type Card as Card,
+    type CardProvisionResponse as CardProvisionResponse,
+    type CardCreateParams as CardCreateParams,
+    type CardUpdateParams as CardUpdateParams,
+    type CardProvisionParams as CardProvisionParams,
+  };
+
+  export {
+    FinancialTransactions as FinancialTransactions,
+    type FinancialTransaction as FinancialTransaction,
+  };
 }
