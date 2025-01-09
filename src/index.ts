@@ -21,6 +21,7 @@ const environments = {
   environment_1: 'https://sandbox.acme.com/v1',
 };
 type Environment = keyof typeof environments;
+
 export interface ClientOptions {
   /**
    * Defaults to process.env['MEORPHIS_TEST_26_API_KEY'].
