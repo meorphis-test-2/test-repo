@@ -11,8 +11,7 @@
     "paths": {
       "meorphis-test-26/_shims/auto/*": ["src/_shims/auto/*-node"],
       "meorphis-test-26/*": ["src/*"],
-      "meorphis-test-26": ["src/index.ts"],
-      "digest-fetch": ["./typings/digest-fetch"]
+      "meorphis-test-26": ["src/index.ts"]
     },
     "noEmit": true,
 
@@ -33,6 +32,7 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
+		"isolatedModules": false,
 
     "skipLibCheck": true
   }

@@ -1,11 +1,11 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
-  Card,
-  CardProvisionResponse,
-  CardCreateParams,
-  CardUpdateParams,
-  CardProvisionParams,
   Cards,
+  type Card,
+  type CardProvisionResponse,
+  type CardCreateParams,
+  type CardUpdateParams,
+  type CardProvisionParams,
 } from './cards';
-export { FinancialTransaction, FinancialTransactions } from './financial-transactions';
+export { FinancialTransactions, type FinancialTransaction } from './financial-transactions';

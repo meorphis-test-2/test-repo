@@ -1,8 +1,7 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Core from 'meorphis-test-26/core';
-import { APIResource } from 'meorphis-test-26/resource';
-import * as FinancialTransactionsAPI from 'meorphis-test-26/resources/cards/financial-transactions';
+import { APIResource } from '../../resource';
+import * as Core from '../../core';
 
 export class FinancialTransactions extends APIResource {
   /**
@@ -182,6 +181,6 @@ export namespace FinancialTransaction {
   }
 }
 
-export namespace FinancialTransactions {
-  export import FinancialTransaction = FinancialTransactionsAPI.FinancialTransaction;
+export declare namespace FinancialTransactions {
+  export { type FinancialTransaction as FinancialTransaction };
 }

@@ -1,18 +1,17 @@
 # Meorphis Test 26 Node API Library
 
-[![NPM version](https://img.shields.io/npm/v/meorphis-test-26.svg)](https://npmjs.org/package/meorphis-test-26)
+[![NPM version](https://img.shields.io/npm/v/meorphis-test-26.svg)](https://npmjs.org/package/meorphis-test-26) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/meorphis-test-26)
 
 This library provides convenient access to the Meorphis Test 26 REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found [on docs.meorphis-test-26.com](https://docs.meorphis-test-26.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.meorphis-test-26.com](https://docs.meorphis-test-26.com). The full API of this library can be found in [api.md](api.md).
+
+It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Installation
 
 ```sh
-# install from NPM
-npm install --save meorphis-test-26
-# or
-yarn add meorphis-test-26
+npm install meorphis-test-26
 ```
 
 ## Usage
@@ -23,13 +22,13 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import MeorphisTest26 from 'meorphis-test-26';
 
-const meorphisTest26 = new MeorphisTest26({
+const client = new MeorphisTest26({
   apiKey: process.env['MEORPHIS_TEST_26_API_KEY'], // This is the default and can be omitted
   environment: 'environment_1', // defaults to 'production'
 });
 
 async function main() {
-  const card = await meorphisTest26.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
+  const card = await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 
   console.log(card.token);
 }
@@ -45,15 +44,13 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import MeorphisTest26 from 'meorphis-test-26';
 
-const meorphisTest26 = new MeorphisTest26({
+const client = new MeorphisTest26({
   apiKey: process.env['MEORPHIS_TEST_26_API_KEY'], // This is the default and can be omitted
   environment: 'environment_1', // defaults to 'production'
 });
 
 async function main() {
-  const card: MeorphisTest26.Card = await meorphisTest26.cards.retrieve(
-    '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-  );
+  const card: MeorphisTest26.Card = await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
 }
 
 main();
@@ -70,7 +67,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const card = await meorphisTest26.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e').catch((err) => {
+  const card = await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e').catch(async (err) => {
     if (err instanceof MeorphisTest26.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -108,12 +105,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const meorphisTest26 = new MeorphisTest26({
+const client = new MeorphisTest26({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await meorphisTest26.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
   maxRetries: 5,
 });
 ```
@@ -125,12 +122,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const meorphisTest26 = new MeorphisTest26({
+const client = new MeorphisTest26({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await meorphisTest26.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
   timeout: 5 * 1000,
 });
 ```
@@ -149,20 +146,64 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 
 <!-- prettier-ignore -->
 ```ts
-const meorphisTest26 = new MeorphisTest26();
+const client = new MeorphisTest26();
 
-const response = await meorphisTest26.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e').asResponse();
+const response = await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e').asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: card, response: raw } = await meorphisTest26.cards
+const { data: card, response: raw } = await client.cards
   .retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e')
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(card.token);
 ```
 
-## Customizing the fetch client
+### Making custom/undocumented requests
+
+This library is typed for convenient access to the documented API. If you need to access undocumented
+endpoints, params, or response properties, the library can still be used.
+
+#### Undocumented endpoints
+
+To make requests to undocumented endpoints, you can use `client.get`, `client.post`, and other HTTP verbs.
+Options on the client, such as retries, will be respected when making these requests.
+
+```ts
+await client.post('/some/path', {
+  body: { some_prop: 'foo' },
+  query: { some_query_arg: 'bar' },
+});
+```
+
+#### Undocumented request params
+
+To make requests using undocumented parameters, you may use `// @ts-expect-error` on the undocumented
+parameter. This library doesn't validate at runtime that the request matches the type, so any extra values you
+send will be sent as-is.
+
+```ts
+client.foo.create({
+  foo: 'my_param',
+  bar: 12,
+  // @ts-expect-error baz is not yet public
+  baz: 'undocumented option',
+});
+```
+
+For requests with the `GET` verb, any extra params will be in the query, all other requests will send the
+extra param in the body.
+
+If you want to explicitly send an extra argument, you can do so with the `query`, `body`, and `headers` request
+options.
+
+#### Undocumented response properties
+
+To access undocumented response properties, you may access the response object with `// @ts-expect-error` on
+the response object, or cast the response object to the requisite type. Like the request params, we do not
+validate or strip extra properties from the response from the API.
+
+### Customizing the fetch client
 
 By default, this library uses `node-fetch` in Node, and expects a global `fetch` function in other environments.
 
@@ -178,7 +219,9 @@ import MeorphisTest26 from 'meorphis-test-26';
 ```
 
 To do the inverse, add `import "meorphis-test-26/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/tree/main/src/_shims#readme)).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/meorphis-test-2/test-repo/tree/main/src/_shims#readme)).
+
+### Logging and middleware
 
 You may also provide a custom `fetch` function when instantiating the client,
 which can be used to inspect or alter the `Request` or `Response` before/after each request:
@@ -200,7 +243,7 @@ const client = new MeorphisTest26({
 Note that if given a `DEBUG=true` environment variable, this library will log all requests and responses automatically.
 This is intended for debugging purposes only and may change in the future without notice.
 
-## Configuring an HTTP(S) Agent (e.g., for proxies)
+### Configuring an HTTP(S) Agent (e.g., for proxies)
 
 By default, this library uses a stable agent for all http/https requests to reuse TCP connections, eliminating many TCP & TLS handshakes and shaving around 100ms off most requests.
 
@@ -209,31 +252,30 @@ If you would like to disable or customize this behavior, for example to use the 
 <!-- prettier-ignore -->
 ```ts
 import http from 'http';
-import HttpsProxyAgent from 'https-proxy-agent';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
-const meorphisTest26 = new MeorphisTest26({
+const client = new MeorphisTest26({
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 
 // Override per-request:
-await meorphisTest26.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-  baseURL: 'http://localhost:8080/test-api',
+await client.cards.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
   httpAgent: new http.Agent({ keepAlive: false }),
-})
+});
 ```
 
-## Semantic Versioning
+## Semantic versioning
 
 This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:
 
 1. Changes that only affect static types, without breaking runtime behavior.
-2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals)_.
+2. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_
 3. Changes that we do not expect to impact the vast majority of users in practice.
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/meorphis-test-26-node/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/meorphis-test-2/test-repo/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
@@ -241,8 +283,9 @@ TypeScript >= 4.5 is supported.
 
 The following runtimes are supported:
 
+- Web browsers (Up-to-date Chrome, Firefox, Safari, Edge, and more)
 - Node.js 18 LTS or later ([non-EOL](https://endoflife.date/nodejs)) versions.
-- Deno v1.28.0 or higher, using `import MeorphisTest26 from "npm:meorphis-test-26"`.
+- Deno v1.28.0 or higher.
 - Bun 1.0 or later.
 - Cloudflare Workers.
 - Vercel Edge Runtime.
@@ -252,3 +295,7 @@ The following runtimes are supported:
 Note that React Native is not supported at this time.
 
 If you are interested in other runtime environments, please open or upvote an issue on GitHub.
+
+## Contributing
+
+See [the contributing documentation](./CONTRIBUTING.md).

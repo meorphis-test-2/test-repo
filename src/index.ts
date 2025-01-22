@@ -1,10 +1,20 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as Errors from './error';
-import { type Agent } from './_shims/index';
 import * as Uploads from './uploads';
-import * as API from 'meorphis-test-26/resources/index';
+import * as API from './resources/index';
+import { Status, StatusRetrieveResponse } from './resources/status';
+import { AccountConfiguration, AccountUpdateParams, Accounts } from './resources/accounts/accounts';
+import {
+  Card,
+  CardCreateParams,
+  CardProvisionParams,
+  CardProvisionResponse,
+  CardUpdateParams,
+  Cards,
+} from './resources/cards/cards';
 
 const environments = {
   production: 'https://api.acme.com/v1',
@@ -25,7 +35,7 @@ export interface ClientOptions {
    * - `production` corresponds to `https://api.acme.com/v1`
    * - `environment_1` corresponds to `https://sandbox.acme.com/v1`
    */
-  environment?: Environment;
+  environment?: Environment | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -41,7 +51,7 @@ export interface ClientOptions {
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
    */
-  timeout?: number;
+  timeout?: number | undefined;
 
   /**
    * An HTTP agent used to manage HTTP(S) connections.
@@ -49,7 +59,7 @@ export interface ClientOptions {
    * If not provided, an agent will be constructed by default in the Node.js environment,
    * otherwise no agent is used.
    */
-  httpAgent?: Agent;
+  httpAgent?: Agent | undefined;
 
   /**
    * Specify a custom `fetch` function implementation.
@@ -65,7 +75,7 @@ export interface ClientOptions {
    *
    * @default 2
    */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
 
   /**
    * Default headers to include with every request to the API.
@@ -73,7 +83,7 @@ export interface ClientOptions {
    * These can be removed in individual requests by explicitly setting the
    * header to `undefined` or `null` in request options.
    */
-  defaultHeaders?: Core.Headers;
+  defaultHeaders?: Core.Headers | undefined;
 
   /**
    * Default query parameters to include with every request to the API.
@@ -81,10 +91,12 @@ export interface ClientOptions {
    * These can be removed in individual requests by explicitly setting the
    * param to `undefined` in request options.
    */
-  defaultQuery?: Core.DefaultQuery;
+  defaultQuery?: Core.DefaultQuery | undefined;
 }
 
-/** API Client for interfacing with the Meorphis Test 26 API. */
+/**
+ * API Client for interfacing with the Meorphis Test 26 API.
+ */
 export class MeorphisTest26 extends Core.APIClient {
   apiKey: string;
 
@@ -134,6 +146,7 @@ export class MeorphisTest26 extends Core.APIClient {
       maxRetries: options.maxRetries,
       fetch: options.fetch,
     });
+
     this._options = options;
 
     this.apiKey = apiKey;
@@ -159,6 +172,7 @@ export class MeorphisTest26 extends Core.APIClient {
   }
 
   static MeorphisTest26 = this;
+  static DEFAULT_TIMEOUT = 60000; // 1 minute
 
   static MeorphisTest26Error = Errors.MeorphisTest26Error;
   static APIError = Errors.APIError;
@@ -173,9 +187,37 @@ export class MeorphisTest26 extends Core.APIClient {
   static InternalServerError = Errors.InternalServerError;
   static PermissionDeniedError = Errors.PermissionDeniedError;
   static UnprocessableEntityError = Errors.UnprocessableEntityError;
+
+  static toFile = Uploads.toFile;
+  static fileFromPath = Uploads.fileFromPath;
 }
 
-export const {
+MeorphisTest26.Accounts = Accounts;
+MeorphisTest26.Cards = Cards;
+MeorphisTest26.Status = Status;
+export declare namespace MeorphisTest26 {
+  export type RequestOptions = Core.RequestOptions;
+
+  export {
+    Accounts as Accounts,
+    type AccountConfiguration as AccountConfiguration,
+    type AccountUpdateParams as AccountUpdateParams,
+  };
+
+  export {
+    Cards as Cards,
+    type Card as Card,
+    type CardProvisionResponse as CardProvisionResponse,
+    type CardCreateParams as CardCreateParams,
+    type CardUpdateParams as CardUpdateParams,
+    type CardProvisionParams as CardProvisionParams,
+  };
+
+  export { Status as Status, type StatusRetrieveResponse as StatusRetrieveResponse };
+}
+
+export { toFile, fileFromPath } from './uploads';
+export {
   MeorphisTest26Error,
   APIError,
   APIConnectionError,
@@ -189,31 +231,6 @@ export const {
   InternalServerError,
   PermissionDeniedError,
   UnprocessableEntityError,
-} = Errors;
-
-export import toFile = Uploads.toFile;
-export import fileFromPath = Uploads.fileFromPath;
-
-export namespace MeorphisTest26 {
-  // Helper functions
-  export import toFile = Uploads.toFile;
-  export import fileFromPath = Uploads.fileFromPath;
-
-  export import RequestOptions = Core.RequestOptions;
-
-  export import Accounts = API.Accounts;
-  export import AccountConfiguration = API.AccountConfiguration;
-  export import AccountUpdateParams = API.AccountUpdateParams;
-
-  export import Cards = API.Cards;
-  export import Card = API.Card;
-  export import CardProvisionResponse = API.CardProvisionResponse;
-  export import CardCreateParams = API.CardCreateParams;
-  export import CardUpdateParams = API.CardUpdateParams;
-  export import CardProvisionParams = API.CardProvisionParams;
-
-  export import Status = API.Status;
-  export import StatusRetrieveResponse = API.StatusRetrieveResponse;
-}
+} from './error';
 
 export default MeorphisTest26;

@@ -1,8 +1,8 @@
-// File generated from our OpenAPI spec by Stainless.
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { AccountConfiguration, AccountUpdateParams, Accounts } from './accounts';
+export { Accounts, type AccountConfiguration, type AccountUpdateParams } from './accounts';
 export {
-  BusinessAccount,
-  CreditConfigurationUpdateParams,
   CreditConfiguration,
+  type BusinessAccount,
+  type CreditConfigurationUpdateParams,
 } from './credit-configuration';
